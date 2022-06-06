@@ -21,7 +21,7 @@ export const getTask = async (req, res) => {
 
 export const createTask = async (req, res) => {
     try {
-        const taskToCreate = req.body;
+        const taskToCreate = req.body.listId;
        
         const tasks = await TasksService.createTask(taskToCreate);
         return res.status(200).json({ status: 200, data: tasks, message: "Succesfully Tasks Retrieved" });
@@ -43,3 +43,13 @@ export const updateTask = async (req, res) => {
     }
 }
 
+export const deleteTask = async (req, res) => {
+    try {
+        const taskId  = req.params.taskId;
+        console.log(taskId)
+        await TasksService.deleteTask(taskId);
+        return res.status(200).json({ status: 204, message: `task with id ${taskId} succesfully deleted` });
+    } catch (e) {
+        return res.status(400).json({ status: 400, message: e.message });
+    }
+}

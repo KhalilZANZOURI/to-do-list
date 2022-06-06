@@ -35,8 +35,8 @@ const createList = async (listToCreate) => {
 
 const updateList = async (listToUpdate) => {
     try {
-        await List.findOneAndUpdate(listToUpdate);
-        return listToUpdate;
+        await List.findOneAndUpdate({_id:listToUpdate},{name:name},{tasks:tasks});
+        return getList(listToUpdate);
     } catch (e) {
         console.log(e)
         throw Error('Error.');

@@ -4,17 +4,17 @@ import { getList } from './lists.service.js';
 
 import mongoose from 'mongoose';
 
-const getTasks = async (listId) => {
+
+const getTasks = async listId => {
     try {
-        const list= await List.findOne({_id:listId})
-        console.log(listId)
-        console.log(list)
-        return list.tasks ;
+      const list = await List.findOne({ _id: listId });
+      const tasks = await Task.find({ _id: { $in: list.tasks } });
+      return tasks;
     } catch (e) {
-        console.log(e)
-        throw Error('Error while fetching list.');
+      console.log(e);
+      throw Error('Error while fetching list.');
     }
-}
+  };
 
 
 
@@ -30,66 +30,32 @@ const getTask=async (taskId)=>{
 const createTask = async (taskToCreate) => {
     try {
         const newTask = new Task(taskToCreate)
+        console.log(newTask)
         await newTask.save()
-        return getTasks();
+        return getTasks()
     } catch (e) {
         console.log(e);
         throw Error('Error.');
     }
 }
 
-const updateTask = async (taskToUpdate) => {
-    try {
-        await Task.findOneAndUpdate(taskToUpdate)
-        return taskToUpdate
-    } catch (e) {
-        throw Error('Error.')
+// const updateTask = async (taskToUpdate) => {
+//     try {
+//         await Task.findOneAndUpdate(taskToUpdate)
+//         return taskToUpdate
+//     } catch (e) {
+//         throw Error('Error.')
         
+//     }
+// }
+
+
+const deleteTask = async (taskId) => {
+    try {
+        await Task.deleteOne({_id:taskId});
+    } catch (e) {
+        throw Error('Error.');
     }
 }
 
-// /**
-//  * 
-//  * @param studentToUpdate The student to update
-//  * @returns All students
-//  */
-// const updateStudent = (studentToUpdate) => {
-//     try {
-//         Student.findOneAndUpdate(studentToUpdate);
-//         return studentToUpdate;
-//     } catch (e) {
-//         throw Error('Error.');
-//     }
-// }
-
-// /**
-//  * 
-//  * @param studentId The student id
-//  * @param dataToPatch Data to patch
-//  * @returns The patched student
-//  */
-// const patchStudent = async (studentId, dataToPatch) => {
-//     try {
-//         const studentToPatch = await getStudent(studentId);
-//         const { name, firstname, age } = dataToPatch;
-
-//         if(name) studentToPatch.name = name;
-//         if(firstname) studentToPatch.firstname = firstname;
-//         if(age) studentToPatch.age = age;
-
-//         updateStudent(studentToPatch);
-//         return studentToPatch;
-//     } catch (e) {
-//         throw Error('Error.');
-//     }
-// }
-
-// const deleteStudent = async (studentId) => {
-//     try {
-//         await Student.deleteOne({_id: studentId});
-//     } catch (e) {
-//         throw Error('Error.');
-//     }
-// }
-
-export { getTasks, getTask, createTask , updateTask }
+export { getTasks, getTask, createTask , deleteTask }
