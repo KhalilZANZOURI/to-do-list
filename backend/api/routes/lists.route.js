@@ -10,7 +10,7 @@ router.get('/:listId', getList);
 
 router.post('/', createList); 
 
-router.put('/:listId', updateList); //pas bon
+router.put('/:listId', updateList); 
 
 router.delete('/:listId', deleteList); 
 
@@ -20,7 +20,7 @@ router.get('/:listId/tasks/:taskId', getTask);
 
 router.post('/:listId/tasks/', createTask);
 
-router.put('/:listId/tasks', updateTask); //pas bon
+router.put('/:listId/tasks/:taskId', updateTask); //pas bon
 
 router.delete('/:listId/tasks/:taskId', deleteTask);
 

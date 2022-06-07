@@ -32,19 +32,19 @@ export const createList = async (req, res) => {
     }
 }
 
-
 export const updateList = async (req, res) => {
     try {
         //const listUpdated = await ListsService.updateList(req.body);
         const listId = await req.params.listId;
-        const listUpdated = await ListsService.updateList(listId);
+        const newList = req.body;
+        const listUpdated = await ListsService.updateList(listId, newList);
 
         return res.status(200).json(listUpdated);
     } catch (e) {
-        console.log(e)
+        console.log(e);
         return res.status(400).json({ status: 400, message: e.message });
     }
-}
+};
 
 
 

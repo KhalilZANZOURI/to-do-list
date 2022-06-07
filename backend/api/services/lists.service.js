@@ -33,16 +33,15 @@ const createList = async (listToCreate) => {
 
 
 
-const updateList = async (listToUpdate) => {
+const updateList = async (listToUpdate, newList) => {
     try {
-        await List.findOneAndUpdate({_id:listToUpdate},{name:name},{tasks:tasks});
-        return getList(listToUpdate);
+      await List.findOneAndUpdate({ _id: listToUpdate }, newList);
+      return getList(listToUpdate);
     } catch (e) {
-        console.log(e)
-        throw Error('Error.');
+      console.log(e);
+      throw Error('Error.');
     }
-}
-
+  };
 
 const deleteList = async (listId) => {
     try {

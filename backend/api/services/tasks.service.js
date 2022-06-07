@@ -7,22 +7,22 @@ import mongoose from 'mongoose';
 
 const getTasks = async listId => {
     try {
-      const list = await List.findOne({ _id: listId });
-      const tasks = await Task.find({ _id: { $in: list.tasks } });
-      return tasks;
+        const list = await List.findOne({ _id: listId });
+        const tasks = await Task.find({ _id: { $in: list.tasks } });
+        return tasks;
     } catch (e) {
-      console.log(e);
-      throw Error('Error while fetching list.');
+        console.log(e);
+        throw Error('Error while fetching list.');
     }
-  };
+};
 
 
 
-const getTask=async (taskId)=>{
-    try{
-    return await Task.findOne({_id:taskId});
-    } catch(err){
-    throw Error('Error');
+const getTask = async (taskId) => {
+    try {
+        return await Task.findOne({ _id: taskId });
+    } catch (err) {
+        throw Error('Error');
     }
 
 }
@@ -39,23 +39,24 @@ const createTask = async (taskToCreate) => {
     }
 }
 
-// const updateTask = async (taskToUpdate) => {
-//     try {
-//         await Task.findOneAndUpdate(taskToUpdate)
-//         return taskToUpdate
-//     } catch (e) {
-//         throw Error('Error.')
-        
-//     }
-// }
+const updateTask = async (taskToUpdate, newTask) => {
+    try {
+        await Task.findOneAndUpdate({ _id: taskToUpdate }, newTask)
+        return getTask(taskToUpdate);
+    } catch (e) {
+        console.log(e);
+        throw Error('Error.')
+
+    }
+}
 
 
 const deleteTask = async (taskId) => {
     try {
-        await Task.deleteOne({_id:taskId});
+        await Task.deleteOne({ _id: taskId });
     } catch (e) {
         throw Error('Error.');
     }
 }
 
-export { getTasks, getTask, createTask , deleteTask }
+export { getTasks, getTask, createTask, updateTask, deleteTask }
