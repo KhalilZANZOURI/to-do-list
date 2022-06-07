@@ -1,0 +1,14 @@
+.container{
+    max-width: 600px;
+    margin: auto;
+    padding: 0 1rem;
+
+}
+
+.select{
+    border: none;
+    outline: none;
+    width: 550px;
+    padding: 0 0.5rem;
+    border-bottom: 2px solid rgb(199, 12, 12);
+}
