@@ -8,10 +8,8 @@ import axios from 'axios';
 function App() {
   const [text, setText] = useState('');
   const [list, setList] = useState([]);
-  const [task, setTask] = useState([]);
-
-  const [isUpdating, setUpdating] = useState('');
-
+  const [currentList, setCurrentList] = useState(false);
+  const [isUpdating, setIsUpdating] = useState();
 
   const getLists = async () => {
     axios.get('http://localhost:5000/lists').then(res => {
@@ -19,17 +17,14 @@ function App() {
     });
   };
 
-  const getTasks = async (_id) => {
-    axios.get(`http://localhost:5000/lists/${_id}/tasks`).then(res => {
-      setTask(res.data);
-
-    });
-  };
-
+  // const getTasks = async _id => {
+  //   axios.get(`http://localhost:5000/lists/${_id}/tasks`).then(res => {
+  //     setTask(res.data);
+  //   });
+  // };
 
   useEffect(() => {
     getLists();
-    getTasks();
   }, []);
 
   const addList = () => {
@@ -38,10 +33,6 @@ function App() {
       getLists();
     });
   };
-
-
-
-
 
   const updateList = (_id, text) => {
     if (isUpdating === '') {
@@ -56,9 +47,6 @@ function App() {
     }
   };
 
-
-
-
   const deleteList = _id => {
     axios.delete(`http://localhost:5000/lists/${_id}`).then(res => {
       console.log(res);
@@ -66,15 +54,11 @@ function App() {
     });
   };
 
-
-
-
   return (
     <div className='App'>
       <div className='container'>
         <h1>My lists</h1>
-        <SearchBar/>
-
+        <SearchBar setCurrentList={setCurrentList} list={list} />
         <div className='top'>
           <input
             type='text'
@@ -83,23 +67,29 @@ function App() {
             onChange={e => setText(e.target.value)}
           />
 
-
           <div className='add' onClick={addList}>
             Add List
           </div>
-
         </div>
 
         <div className='list'>
-          {list.map(item => (
+          {/* {list.map(item => (
             <Item
+              id={item._id}
               key={item._id}
               text={item.name}
               remove={() => deleteList(item._id)}
-              update={() => getTasks(item._id)}
+              // update={() => getTasks(item._id)}
             />
-          ))}
-
+          ))} */}
+          {currentList && (
+            <Item
+              id={currentList._id}
+              key={currentList._id}
+              text={currentList.name}
+              remove={() => deleteList(currentList._id)}
+            />
+          )}
         </div>
       </div>
     </div>
