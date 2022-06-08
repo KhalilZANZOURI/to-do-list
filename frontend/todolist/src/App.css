@@ -32,6 +32,34 @@ input {
   background-color: #000;
   color: #fff;
   padding: 0.5rem 1.5rem;
+  border: none;
+}
+
+.add :active {
+  scale: 0.9;
+}
+
+.button {
+  padding: 15px 25px;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #5b1515;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {
+  background-color: #000000;
+}
+
+.button:active {
+  background-color: #000000;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
 }
 
 .addTask {
@@ -56,6 +84,8 @@ input {
   right: 10px;
   display: flex;
   gap: 0.5rem;
+  align-items: center;
+  gap: 20px;
 }
 
 i {

@@ -9,48 +9,33 @@ function App() {
   const [text, setText] = useState('');
   const [list, setList] = useState([]);
   const [currentList, setCurrentList] = useState(false);
-  const [isUpdating, setIsUpdating] = useState();
 
   const getLists = async () => {
     axios.get('http://localhost:5000/lists').then(res => {
       setList(res.data);
     });
   };
-
-  // const getTasks = async _id => {
-  //   axios.get(`http://localhost:5000/lists/${_id}/tasks`).then(res => {
-  //     setTask(res.data);
-  //   });
-  // };
+  const getListsFirst = async () => {
+    axios.get('http://localhost:5000/lists').then(res => {
+      setList(res.data);
+      setCurrentList(res.data[0]);
+    });
+  };
 
   useEffect(() => {
-    getLists();
+    getListsFirst();
   }, []);
 
   const addList = () => {
     axios.post('http://localhost:5000/lists', { name: text }).then(res => {
-      console.log(res.data);
+      setText('');
       getLists();
     });
   };
 
-  const updateList = (_id, text) => {
-    if (isUpdating === '') {
-      axios
-        .put(`http://localhost:5000/lists/${_id}`, { text })
-        .then(res => {
-          console.log(res.data);
-          setText('');
-          getLists();
-        })
-        .catch(err => console.log(err));
-    }
-  };
-
   const deleteList = _id => {
     axios.delete(`http://localhost:5000/lists/${_id}`).then(res => {
-      console.log(res);
-      getLists();
+      getListsFirst();
     });
   };
 
@@ -67,9 +52,9 @@ function App() {
             onChange={e => setText(e.target.value)}
           />
 
-          <div className='add' onClick={addList}>
+          <button className='button' onClick={addList}>
             Add List
-          </div>
+          </button>
         </div>
 
         <div className='list'>
@@ -88,6 +73,7 @@ function App() {
               key={currentList._id}
               text={currentList.name}
               remove={() => deleteList(currentList._id)}
+              getLists={getLists}
             />
           )}
         </div>
